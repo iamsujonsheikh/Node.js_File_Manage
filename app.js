@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const studentFile = require('./middleware/multer');
 
 app.use(cors());
 app.use(express.json());
@@ -12,6 +13,12 @@ app.use(express.static("public"));
 // Home route.
 app.get('/', (req, res) => {
     res.status(200).send("Hey awesome people.")
+});
+
+// Home route.
+app.post('/student', studentFile, (req, res) => {
+    const result = req.body;
+    res.json({ result });
 });
 
 // Client site error.
@@ -26,6 +33,4 @@ app.use((err, req, res, next) => {
         error: "Internel error."
     })
 });
-
-
 module.exports = app;
